@@ -1,13 +1,15 @@
 from datamodel.advisory import AdvisoryRecord
 from datamodel.commit import Commit
-from datamodel.commit_features import CommitFeatures
+from datamodel.commit_features import CommitWithFeatures
 
 DAYS_BEFORE = 180
 DAYS_AFTER = 365
 DAY_IN_SECONDS = 86400
 
 
-def extract_features(commit: Commit, advisory_record: AdvisoryRecord) -> CommitFeatures:
+def extract_features(
+    commit: Commit, advisory_record: AdvisoryRecord
+) -> CommitWithFeatures:
     references_vuln_id = extract_references_vuln_id(commit, advisory_record)
     time_between_commit_and_advisory_record = (
         extract_time_between_commit_and_advisory_record(commit, advisory_record)
@@ -19,7 +21,7 @@ def extract_features(commit: Commit, advisory_record: AdvisoryRecord) -> CommitF
     )
     changes_relevant_path = extract_changes_relevant_path(commit, advisory_record)
     other_CVE_in_message = extract_other_CVE_in_message(commit, advisory_record)
-    commit_feature = CommitFeatures(
+    commit_feature = CommitWithFeatures(
         commit=commit,
         references_vuln_id=references_vuln_id,
         time_between_commit_and_advisory_record=time_between_commit_and_advisory_record,
